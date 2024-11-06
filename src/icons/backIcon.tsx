@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-const MenuIcon: FC<{ className?: string; fill?: string }> = ({
+const PrevIcon: FC<{ className?: string; fill?: string }> = ({
   className,
   fill = "none",
 }) => {
@@ -16,9 +16,10 @@ const MenuIcon: FC<{ className?: string; fill?: string }> = ({
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+        d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z"
       />
     </svg>
   );
 };
-export default MenuIcon;
+
+export default PrevIcon;

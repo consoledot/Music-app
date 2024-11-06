@@ -2,14 +2,14 @@ import PlayIcon from "@/icons/playIcon";
 
 export const TrackList = () => {
   return (
-    <div className="flex justify-between w-full items-center group hover:cursor-pointer">
+    <div className="flex justify-between w-full items-center group hover:cursor-pointer px-2">
       <div className="flex gap-4 items-center">
         <div className="w-5 flex place-items-center transition-all ">
-          <p className="text-lg font-semibold opacity-60 block group-hover:hidden m-auto w-full">
+          <p className="text-lg font-semibold opacity-60 block md:group-hover:hidden m-auto w-full">
             1
           </p>
           <PlayIcon
-            className="hidden group-hover:block m-auto w-full"
+            className="hidden md:group-hover:block m-auto w-full"
             fill="white"
           />
         </div>

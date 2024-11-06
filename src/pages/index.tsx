@@ -1,4 +1,4 @@
-import { Card } from "@/components/card";
+import { Card } from "@/components/Card";
 import { HorizontalLayout } from "@/ui/horizontalLayout";
 
 export default function Home() {
@@ -8,9 +8,11 @@ export default function Home() {
         <div className="flex flex-col gap-2 ">
           <h1 className="text-4xl font-semibold">New Release</h1>
           <HorizontalLayout>
-            <Card />
-            <Card /> <Card /> <Card /> <Card /> <Card /> <Card /> <Card />{" "}
-            <Card />
+            {Array(8)
+              .fill(null)
+              .map((_, i) => (
+                <Card key={i} />
+              ))}
           </HorizontalLayout>
         </div>
       </div>

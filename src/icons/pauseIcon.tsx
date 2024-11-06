@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-const MenuIcon: FC<{ className?: string; fill?: string }> = ({
+const PauseIcon: FC<{ className?: string; fill?: string }> = ({
   className,
   fill = "none",
 }) => {
@@ -16,9 +16,9 @@ const MenuIcon: FC<{ className?: string; fill?: string }> = ({
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+        d="M15.75 5.25v13.5m-7.5-13.5v13.5"
       />
     </svg>
   );
 };
-export default MenuIcon;
+export default PauseIcon;
