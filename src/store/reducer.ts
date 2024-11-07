@@ -5,9 +5,13 @@ import { Actions } from "./action";
 export const reducer = (state: IAppStoreState, action: ActionType) => {
   return produce(state, (draft) => {
     switch (action.type) {
-      case Actions.TOGGLE_QUEUE_DRAWER:
-        draft.loading = !state.loading;
+      case Actions.UPDATE_GLOBAL_STATE:
+        draft = action.payload as IAppStoreState;
         break;
+      case Actions.TOGGLE_QUEUE_DRAWER:
+        draft.openQueue = !state.openQueue;
+        break;
+
       default:
         break;
     }

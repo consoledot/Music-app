@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useMemo, useState } from "react";
 import { AppStoreContext } from "./ctx";
 import { IAppStoreContext, IAppStoreState } from "./type";
 
@@ -7,10 +7,22 @@ const AppStore: FC<PropsWithChildren> = (props) => {
     loading: false,
     openQueue: false,
   };
+  const [globalState, setGlobalState] = useState<IAppStoreState>(initialValues);
 
-  const values: IAppStoreContext = {
-    state: initialValues,
+  const updateState = (state: IAppStoreState) => {
+    setGlobalState({ ...state });
   };
+
+  const values: IAppStoreContext = useMemo(
+    () => ({
+      state: { ...globalState },
+      updateState,
+    }),
+
+    [globalState]
+  );
+
+  console.log("index", { values });
 
   return (
     <AppStoreContext.Provider value={values}>

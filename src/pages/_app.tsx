@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppStoreProvider>
         <Component {...pageProps} />
         <Player />
-        {/* <Queue /> */}
+        <Queue />
       </AppStoreProvider>
     </React.Fragment>
   );

@@ -6,6 +6,8 @@ import PlayIcon from "@/icons/playIcon";
 import RandomIcon from "@/icons/randomIcon";
 import VolumeIcon from "@/icons/volumeIcon";
 import { img } from "@/lib/constant";
+import { Actions } from "@/store/action";
+import { useAppStore } from "@/store/hook";
 import Image from "next/image";
 const iconProp = {
   className: "md:size-[35px] cursor-pointer opacity-95",
@@ -15,6 +17,7 @@ const iconProp2 = {
   className: "md:size-[25px] cursor-pointer opacity-45",
 };
 export const Player = () => {
+  const { dispatch } = useAppStore();
   return (
     <div className="fixed  bottom-0 right-0 left-0 w-full z-30  h-[7%] md:h-[6%] bg-[#212121] items-center flex justify-center">
       <div
@@ -34,7 +37,10 @@ export const Player = () => {
           <NextIcon {...iconProp} />
         </div>
         <div className="flex items-center gap-4">
-          <figure className=" relative h-[45px] md:h-[40px] w-[45px]  md:w-[40px]">
+          <figure
+            className=" relative h-[45px] md:h-[40px] w-[45px]  md:w-[40px]"
+            onClick={() => dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER })}
+          >
             <Image
               src={img}
               fill
@@ -54,7 +60,9 @@ export const Player = () => {
         <div className="md:flex items-center gap-5 hidden">
           <VolumeIcon {...iconProp2} />
           <RandomIcon {...iconProp2} />
-          <ChevronIcon className="cursor-pointer" />
+          <div onClick={() => dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER })}>
+            <ChevronIcon className="cursor-pointer" />
+          </div>
         </div>
       </div>
     </div>
