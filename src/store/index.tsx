@@ -5,6 +5,7 @@ import { IAppStoreContext, IAppStoreState } from "./type";
 const AppStore: FC<PropsWithChildren> = (props) => {
   const initialValues: IAppStoreState = {
     loading: false,
+    openQueue: false,
   };
 
   const values: IAppStoreContext = {

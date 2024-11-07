@@ -1,6 +1,7 @@
 import { TrackList } from "@/components/TrackList";
 import PlayIcon from "@/icons/playIcon";
 import { img } from "@/lib/constant";
+import { Actions } from "@/store/action";
 import { useAppStore } from "@/store/hook";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +14,7 @@ export default function Playlist() {
         <div className=" flex flex-col md:grid gap-1 grid-cols-3">
           <div
             className=" flex flex-col gap-4 place-items-center "
-            onClick={() => dispatch.updateLoading()}
+            onClick={() => dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER })}
           >
             {state.loading ? <p>Greyyy</p> : null}
             <Link href={""} className="hover:underline flex items-center gap-1">
