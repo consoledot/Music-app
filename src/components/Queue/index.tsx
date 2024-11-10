@@ -1,4 +1,3 @@
-import { img } from "@/lib/constant";
 import Image from "next/image";
 // import { Track } from "../TrackList";
 import cn from "classnames";
@@ -6,7 +5,7 @@ import { useAppStore } from "@/store/hook";
 
 export const Queue = () => {
   const {
-    state: { openQueue },
+    state: { openQueue, currentTrack },
   } = useAppStore();
   return (
     <div
@@ -14,7 +13,7 @@ export const Queue = () => {
         "flex flex-col h-[94%] lg:grid  w-full grid-cols-5 fixed top-0  z-20 bg-black mb-[20%] overflow-y-scroll  ",
         {
           "animate-slideUp translate-y-0": openQueue,
-          "translate-y-[100%]": !openQueue,
+          "translate-y-[100%] animate-slideDown": !openQueue,
         }
       )}
     >
@@ -22,11 +21,13 @@ export const Queue = () => {
         <figure className=" group relative  w-[80%] h-[80%] md:w-[70%] md:h-[70%] m-auto">
           <div className="h-[30%] w-full rounded-t-md transition-all ease-in duration-700  group-hover:bg-gradient-to-b from-[#0a0a0a] top-0 bottom-0 right-0 left-0 z-10 absolute " />
           <Image
-            src={img}
+            src={currentTrack?.data?.album?.cover_xl ?? ""}
             fill
             alt="image"
             sizes="()"
             className="rounded-md h-full z-0"
+            placeholder="blur"
+            blurDataURL="/placeholder.jpeg"
           />
         </figure>
       </div>

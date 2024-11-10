@@ -1,6 +1,6 @@
-import { FC, PropsWithChildren, useEffect, useMemo, useReducer, } from "react";
+import { FC, PropsWithChildren, useEffect, useMemo, useReducer } from "react";
 import { AppStoreContext } from "./ctx";
-import {  IAppStoreState } from "./type";
+import { IAppStoreState } from "./type";
 import { reducer } from "./reducer";
 import { Actions } from "./action";
 
@@ -11,27 +11,29 @@ const AppStore: FC<PropsWithChildren> = (props) => {
     chart: null,
     playlist: null,
     queue: null,
+    currentTrack: {
+      loading: false,
+      data: null,
+      state: null,
+    },
   };
-  // const [globalState, setGlobalState] = useState<IAppStoreState>(() => {
-  //   return initialValues;
-  // });
-  const [state, dispatch] = useReducer(reducer, initialValues)
+
+  const [state, dispatch] = useReducer(reducer, initialValues);
 
   useEffect(() => {
-    console.log("again");
-    if (typeof window !== "undefined" && window.localStorage) {
+    if (typeof window !== "undefined" && window.sessionStorage) {
       const storedState = sessionStorage.getItem("app:state");
       if (!storedState) return;
-      dispatch({type: Actions.UPDATE_STORE, payload: JSON.parse(storedState)})
-   
+      console.log({ storedState: JSON.parse(storedState) });
+      dispatch({
+        type: Actions.UPDATE_STORE,
+        payload: JSON.parse(storedState),
+      });
     }
   }, []);
 
- 
-
   useEffect(() => {
     sessionStorage.setItem("app:state", JSON.stringify(state));
-
   }, [state]);
 
   const values = useMemo(
@@ -42,9 +44,6 @@ const AppStore: FC<PropsWithChildren> = (props) => {
 
     [state]
   );
-
-
-
 
   return (
     <AppStoreContext.Provider value={values}>

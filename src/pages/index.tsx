@@ -11,7 +11,7 @@ export default function Home() {
     state: { chart },
     dispatch,
   } = useAppStore();
-  const { getChart, getPlaylist } = useQuery();
+  const { getChart, getPlaylist, setQueuePlaylist } = useQuery();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div>
       <div className="max-w-screen-2xl m-auto p-3 pt-16 flex flex-col gap-14  ">
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-6 ">
           {chart ? (
             <h1 className="text-4xl font-semibold">New Release</h1>
           ) : null}
@@ -43,11 +43,21 @@ export default function Home() {
                 type={"Single"}
                 id={data?.id}
                 title={data?.title}
+                playAction={() => {
+                  dispatch({
+                    type: Actions.SET_CURRENT_TRACK,
+                    payload: { data, state: "play" },
+                  });
+                  dispatch({
+                    type: Actions.SET_QUEUE,
+                    payload: [data],
+                  });
+                }}
               />
             ))}
           </HorizontalLayout>
         </div>
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-6 ">
           {chart ? (
             <h1 className="text-4xl font-semibold">Trending Playlist</h1>
           ) : null}
@@ -61,6 +71,9 @@ export default function Home() {
                 id={data?.id}
                 title={data?.title}
                 onClick={() => toPlaylist(data?.id)}
+                playAction={() => {
+                  setQueuePlaylist(data?.id);
+                }}
               />
             ))}
           </HorizontalLayout>

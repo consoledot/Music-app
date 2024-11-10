@@ -14,5 +14,19 @@ export const useQuery = () => {
     dispatch({ type: Actions.SET_PLAYLIST, payload: playlist });
   };
 
-  return { getChart, getPlaylist };
+  const setQueuePlaylist = async (id: number) => {
+    dispatch({
+      type: Actions.SET_CURRENT_TRACK,
+      payload: { loading: true, data: null },
+    });
+    const playlist = await apiClient.playlist.get(id.toString());
+
+    dispatch({ type: Actions.SET_QUEUE, payload: playlist });
+    dispatch({
+      type: Actions.SET_CURRENT_TRACK,
+      payload: { data: playlist.tracks.data[0], loading: false },
+    });
+  };
+
+  return { getChart, getPlaylist, setQueuePlaylist };
 };

@@ -12,11 +12,11 @@ export const Loading = () => {
     let timerId: NodeJS.Timeout;
 
     if (loading) {
-      if (percentage > 60) {
+      if (percentage > 70) {
         setPercentage(0);
         return;
       }
-      if (percentage < 60) {
+      if (percentage < 70) {
         timerId = setTimeout(() => {
           setPercentage((p) => p + 1);
         }, 10);
@@ -29,7 +29,7 @@ export const Loading = () => {
   useEffect(() => {
     let timerId: NodeJS.Timeout;
     if (!loading) {
-      setPercentage(101);
+      setPercentage(100);
       return () => clearInterval(timerId);
     }
   }, [loading]);
@@ -39,7 +39,7 @@ export const Loading = () => {
         className={cn(
           `h-full absolute top-0 bg-gradient-to-r from-[#ff0033] to-[#ff278f] ease-linear transition-all `,
           {
-            hidden: percentage <= 0 || percentage >= 101,
+            hidden: percentage <= 0 || percentage >= 100,
           }
         )}
         style={{

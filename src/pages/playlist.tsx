@@ -18,8 +18,13 @@ export default function Playlist() {
   const router = useRouter();
 
   useEffect(() => {
+    // if (!(router.query.id as string)) {
+    //   router.push("/");
+    //   return;
+    // }
     getPlaylist(Number(router.query.id as string));
   }, [router.query.id]);
+
   return (
     <div>
       <div className="max-w-screen-lg m-auto pt-28">
