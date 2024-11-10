@@ -9,6 +9,7 @@ import { img } from "@/lib/constant";
 import { Actions } from "@/store/action";
 import { useAppStore } from "@/store/hook";
 import Image from "next/image";
+import cn from "classnames";
 const iconProp = {
   className: "md:size-[35px] cursor-pointer opacity-95",
   fill: "white",
@@ -17,9 +18,15 @@ const iconProp2 = {
   className: "md:size-[25px] cursor-pointer opacity-45",
 };
 export const Player = () => {
-  const { dispatch } = useAppStore();
+  const {
+    dispatch,
+    state: { openQueue },
+  } = useAppStore();
   return (
-    <div className="fixed  bottom-0 right-0 left-0 w-full z-30  h-[7%] md:h-[6%] bg-[#212121] items-center flex justify-center">
+    <div
+      className="fixed  bottom-0 right-0 left-0 w-full z-30  h-[7%] md:h-[6%] bg-[#212121] items-center flex justify-center"
+      onClick={() => dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER })}
+    >
       <div
         className="h-[3%] absolute top-0 bg-gradient-to-r from-[#ff0033] to-[#ff278f] w-full "
         id="player:range"
@@ -60,8 +67,17 @@ export const Player = () => {
         <div className="md:flex items-center gap-5 hidden">
           <VolumeIcon {...iconProp2} />
           <RandomIcon {...iconProp2} />
-          <div onClick={() => dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER })}>
-            <ChevronIcon className="cursor-pointer" />
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({ type: Actions.TOGGLE_QUEUE_DRAWER });
+            }}
+          >
+            <ChevronIcon
+              className={cn("cursor-pointer transition-all duration-[0.4s]", {
+                "rotate-180": !openQueue,
+              })}
+            />
           </div>
         </div>
       </div>
