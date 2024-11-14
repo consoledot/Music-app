@@ -11,7 +11,8 @@ export default function Home() {
     state: { chart },
     dispatch,
   } = useAppStore();
-  const { getChart, getPlaylist, setQueuePlaylist, getAlbum } = useQuery();
+  const { getChart, getPlaylist, setQueuePlaylist, getAlbum, setQueueAlbum } =
+    useQuery();
   const router = useRouter();
 
   useEffect(() => {
@@ -100,7 +101,9 @@ export default function Home() {
                 onClick={() => {
                   toAlbum(data?.id);
                 }}
-                playAction={() => {}}
+                playAction={() => {
+                  setQueueAlbum(data?.id);
+                }}
               />
             ))}
           </HorizontalLayout>
