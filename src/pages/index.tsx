@@ -11,19 +11,24 @@ export default function Home() {
     state: { chart },
     dispatch,
   } = useAppStore();
-  const { getChart, getPlaylist, setQueuePlaylist } = useQuery();
+  const { getChart, getPlaylist, setQueuePlaylist, getAlbum } = useQuery();
   const router = useRouter();
 
   useEffect(() => {
     getChart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  console.log([chart]);
+  }, [router]);
   const toPlaylist = async (id: number) => {
     dispatch({ type: Actions.SET_LOADING });
     await getPlaylist(id);
     router.push("/playlist?id=" + id);
+    dispatch({ type: Actions.UNSET_LOADING });
+  };
+
+  const toAlbum = async (id: number) => {
+    dispatch({ type: Actions.SET_LOADING });
+    await getAlbum(id);
+    router.push("/album?id=" + id);
     dispatch({ type: Actions.UNSET_LOADING });
   };
 
@@ -74,6 +79,28 @@ export default function Home() {
                 playAction={() => {
                   setQueuePlaylist(data?.id);
                 }}
+              />
+            ))}
+          </HorizontalLayout>
+        </div>
+
+        <div className="flex flex-col gap-6 ">
+          {chart ? (
+            <h1 className="text-4xl font-semibold">Trending Albums</h1>
+          ) : null}
+          <HorizontalLayout>
+            {chart?.albums?.data?.map((data, i) => (
+              <Card
+                key={i}
+                image={data?.cover_xl ?? data?.cover}
+                artist={{ name: data?.artist?.name, id: data?.artist?.id }}
+                type="Album"
+                title={data?.title}
+                id={data?.id}
+                onClick={() => {
+                  toAlbum(data?.id);
+                }}
+                playAction={() => {}}
               />
             ))}
           </HorizontalLayout>

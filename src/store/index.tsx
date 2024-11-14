@@ -11,10 +11,12 @@ const AppStore: FC<PropsWithChildren> = (props) => {
     chart: null,
     playlist: null,
     queue: null,
+    album: null,
     currentTrack: {
       loading: false,
       data: null,
       state: null,
+      position: 0,
     },
   };
 

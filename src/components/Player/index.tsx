@@ -9,7 +9,8 @@ import { Actions } from "@/store/action";
 import { useAppStore } from "@/store/hook";
 import Image from "next/image";
 import cn from "classnames";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getPercentage } from "@/utils";
 const iconProp = {
   className: "md:size-[35px] cursor-pointer opacity-95",
   fill: "white",
@@ -20,9 +21,11 @@ const iconProp2 = {
 export const Player = () => {
   const {
     dispatch,
-    state: { openQueue, currentTrack },
+    state: { openQueue, currentTrack, queue },
   } = useAppStore();
   const player = useRef<HTMLAudioElement | null>(null);
+
+  const [range, setRange] = useState(0);
 
   useEffect(() => {
     if (currentTrack.state == "play") {
@@ -30,15 +33,54 @@ export const Player = () => {
     } else if (currentTrack.state == "pause") {
       player.current?.pause();
     }
+
+    if (currentTrack.loading) {
+      player.current?.pause();
+    }
   }, [currentTrack]);
-  //   useEffect(() => {
-  //     player.current?.addEventListener("ended", () => {
-  //       dispatch({
-  //         type: Actions.SET_CURRENT_TRACK,
-  //         payload: { state: "pause" },
-  //       });
-  //     });
-  //   }, []);
+
+  useEffect(() => {
+    if (currentTrack.loading || currentTrack.data == null) {
+      setRange(0);
+    }
+  }, [currentTrack.data, currentTrack.loading]);
+
+  const nextSong = () => {
+    if (currentTrack && queue?.length) {
+      if (Number(currentTrack?.position) >= queue?.length) {
+        dispatch({
+          type: Actions.SET_CURRENT_TRACK,
+          payload: {
+            state: "pause",
+          },
+        });
+        return;
+      }
+
+      dispatch({
+        type: Actions.SET_CURRENT_TRACK,
+        payload: {
+          data: queue[Number(currentTrack?.position) + 1],
+          position: Number(currentTrack?.position) + 1,
+        },
+      });
+    }
+  };
+  const prevSong = () => {
+    if (currentTrack && queue?.length) {
+      if (Number(currentTrack?.position) <= 0) {
+        return;
+      }
+
+      dispatch({
+        type: Actions.SET_CURRENT_TRACK,
+        payload: {
+          data: queue[Number(currentTrack?.position) - 1],
+          position: Number(currentTrack?.position) - 1,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -54,24 +96,37 @@ export const Player = () => {
             ref={player}
             src={currentTrack?.data?.preview}
             onEnded={() => {
-              dispatch({
-                type: Actions.SET_CURRENT_TRACK,
-                payload: { state: "pause" },
-              });
+              nextSong();
+            }}
+            onTimeUpdate={() => {
+              const duration = player.current?.duration ?? 0;
+              const current = player.current?.currentTime ?? 0;
+              setRange(getPercentage(current, duration));
             }}
           />
-          <div
-            className="h-[3%] absolute top-0 bg-gradient-to-r from-[#ff0033] to-[#ff278f] w-full "
-            id="player:range"
-          />
+          <div id="player:range" className="h-[3%] absolute top-0 w-full ">
+            <div
+              className="h-full   bg-gradient-to-r from-[#ff0033] to-[#ff278f]  "
+              style={{
+                width: range + "%",
+              }}
+            />
+          </div>
           <div className="flex flex-row-reverse md:flex-row  justify-between items-center w-full px-2">
             <div className="flex items-center gap-5">
-              <PrevIcon
-                className={
-                  "md:size-[35px] cursor-pointer opacity-95 hidden md:block"
-                }
-                fill={iconProp.fill}
-              />
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSong();
+                }}
+              >
+                <PrevIcon
+                  className={
+                    "md:size-[35px] cursor-pointer opacity-95 hidden md:block"
+                  }
+                  fill={iconProp.fill}
+                />
+              </div>
               {currentTrack?.loading && (
                 <div className="h-8 w-8  bg-gradient-to-r from-transparent to-[white] rounded-[50%] flex animate-spin  ease-out">
                   <div className="h-7 w-7  bg-[#212121] rounded-[50%] m-auto "></div>
@@ -107,8 +162,14 @@ export const Player = () => {
                   )}
                 </>
               )}
-
-              <NextIcon {...iconProp} />
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSong();
+                }}
+              >
+                <NextIcon {...iconProp} />
+              </div>
             </div>
             {currentTrack.data ? (
               <div className="flex items-center gap-4">

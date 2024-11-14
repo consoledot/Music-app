@@ -27,10 +27,8 @@ export const Loading = () => {
   }, [percentage, loading]);
 
   useEffect(() => {
-    let timerId: NodeJS.Timeout;
     if (!loading) {
       setPercentage(100);
-      return () => clearInterval(timerId);
     }
   }, [loading]);
   return (

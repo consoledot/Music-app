@@ -2,32 +2,31 @@ import { PlaylistQueue } from "@/components/Playlist";
 import { Actions } from "@/store/action";
 import { useAppStore } from "@/store/hook";
 import { useQuery } from "@/store/query";
-
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function Playlist() {
+export default function Album() {
   const {
-    state: { playlist, queue, currentTrack },
+    state: { album, queue, currentTrack },
     dispatch,
   } = useAppStore();
-  const { getPlaylist } = useQuery();
+  const { getAlbum } = useQuery();
 
   const router = useRouter();
 
   useEffect(() => {
-    getPlaylist(Number(router.query.id as string));
+    getAlbum(Number(router.query.id as string));
   }, [router.query.id]);
 
   return (
     <PlaylistQueue
-      image={playlist?.picture_xl || ""}
-      title={playlist?.title || ""}
-      number={playlist?.nb_tracks || 0}
-      duration={playlist?.duration || 0}
-      id={playlist?.id}
+      image={album?.cover_xl ?? ""}
+      title={album?.title ?? ""}
+      number={album?.tracks?.data?.length ?? 0}
+      id={album?.id}
+      duration={album?.tracks?.data.reduce((a, b) => a + b.duration, 0) ?? 0}
       addToQueue={() => {
-        if (queue && currentTrack?.data?.playlist_id == playlist?.id) {
+        if (queue && currentTrack?.data?.playlist_id == album?.id) {
           dispatch({
             type: Actions.SET_CURRENT_TRACK,
             payload: {
@@ -38,22 +37,22 @@ export default function Playlist() {
         }
         dispatch({
           type: Actions.SET_QUEUE,
-          payload: playlist?.tracks?.data.map((v) => ({
+          payload: album?.tracks?.data.map((v) => ({
             ...v,
-            playlist_id: playlist?.id,
+            playlist_id: album?.id,
           })),
         });
         dispatch({
           type: Actions.SET_CURRENT_TRACK,
           payload: {
-            data: { ...playlist?.tracks?.data[0], playlist_id: playlist?.id },
+            data: { ...album?.tracks?.data[0], playlist_id: album?.id },
             loading: false,
             state: "play",
           },
         });
       }}
       tracks={
-        playlist?.tracks?.data?.map((t, i) => ({
+        album?.tracks?.data.map((t, i) => ({
           position: i + 1,
           title: t?.title,
           duration: t?.duration,
@@ -70,20 +69,19 @@ export default function Playlist() {
               });
               return;
             }
-
             if (!queue) {
               dispatch({
                 type: Actions.SET_QUEUE,
-                payload: playlist?.tracks?.data.map((v) => ({
+                payload: album?.tracks?.data.map((v) => ({
                   ...v,
-                  playlist_id: playlist?.id,
+                  playlist_id: album?.id,
                 })),
               });
             }
             dispatch({
               type: Actions.SET_CURRENT_TRACK,
               payload: {
-                data: { ...t, playlist_id: playlist?.id },
+                data: { ...t, playlist_id: album?.id },
                 loading: false,
                 state: "play",
                 position: i,

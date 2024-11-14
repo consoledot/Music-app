@@ -1,7 +1,12 @@
 import { produce } from "immer";
-import { ActionType, IAppStoreState, CurrentTrack } from "./type";
+import {
+  ActionType,
+  IAppStoreState,
+  CurrentTrack,
+  TrackWithPlaylistId,
+} from "./type";
 import { Actions } from "./action";
-import { Charts, Playlist, Track } from "@/lib/types";
+import { Album, Charts, Playlist } from "@/lib/types";
 
 export const reducer = (state: IAppStoreState, action: ActionType) => {
   return produce(state, (draft) => {
@@ -23,8 +28,12 @@ export const reducer = (state: IAppStoreState, action: ActionType) => {
         break;
       case Actions.SET_PLAYLIST:
         draft.playlist = action.payload as Playlist;
+        break;
+      case Actions.SET_ALBUM:
+        draft.album = action.payload as Album;
+        break;
       case Actions.SET_QUEUE:
-        draft.queue = action.payload as Track[];
+        draft.queue = action.payload as TrackWithPlaylistId[];
         break;
       case Actions.SET_CURRENT_TRACK:
         draft.currentTrack = {

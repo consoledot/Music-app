@@ -1,3 +1,4 @@
+import { AlbumEndpoint } from "./endpoints/AlbumEndpoint";
 import { ChartEndpoint } from "./endpoints/ChartEndpoint";
 import { PlaylistEndpoint } from "./endpoints/PlaylistEndpoint";
 
@@ -8,10 +9,12 @@ export class DeezerApi {
   public constructor() {
     this.chart = new ChartEndpoint(this);
     this.playlist = new PlaylistEndpoint(this);
+    this.album = new AlbumEndpoint(this)
   }
 
   public chart: ChartEndpoint;
   public playlist: PlaylistEndpoint;
+  public album: AlbumEndpoint
 
   public async request<T>(req: {
     url: string;

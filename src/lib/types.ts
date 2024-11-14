@@ -44,6 +44,7 @@ export interface Album {
   position: number;
   explicit_lyrics: boolean;
   artist: Artist;
+  tracks: { data: Track[] };
 }
 
 export interface Playlist {

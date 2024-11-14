@@ -7,3 +7,7 @@ export const formatDuration = (duration: number) => {
     full: `${minutes}: ${seconds.toString().padStart(2, "0")}`,
   };
 };
+
+export const getPercentage = (curr: number, total: number) => {
+  return (curr / total) * 100;
+};

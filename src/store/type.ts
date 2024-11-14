@@ -1,4 +1,4 @@
-import { Charts, Playlist, Track } from "@/lib/types";
+import { Album, Charts, Playlist, Track } from "@/lib/types";
 import { Actions } from "./action";
 import { Dispatch } from "react";
 
@@ -12,7 +12,8 @@ export interface IAppStoreState {
   openQueue: boolean;
   chart: Charts | null;
   playlist: Playlist | null;
-  queue: Track[] | null;
+  album: Album | null;
+  queue: TrackWithPlaylistId[] | null;
   currentTrack: CurrentTrack;
 }
 
@@ -22,7 +23,12 @@ export interface ActionType {
 }
 
 export interface CurrentTrack {
-  data: Track | null;
+  data: TrackWithPlaylistId | null;
   loading: boolean;
   state: "play" | "pause" | null;
+  position: number | undefined;
 }
+
+export type TrackWithPlaylistId = Track & {
+  playlist_id: number;
+};
