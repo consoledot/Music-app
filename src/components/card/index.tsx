@@ -17,7 +17,7 @@ interface CardProps {
   playAction: VoidFunction;
 }
 
- const Card: FC<CardProps> = (props) => {
+export const Card: FC<CardProps> = (props) => {
   return (
     <div
       className="flex flex-col rounded-sm cursor-pointer gap-1 w-[150px] md:w-[250px] "
@@ -80,5 +80,3 @@ interface CardProps {
     </div>
   );
 };
-
-export default Card
