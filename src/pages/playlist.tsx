@@ -1,4 +1,4 @@
-import { PlaylistQueue } from "@/components/Playlist";
+import { PlaylistQueue } from "@/component/Playlist";
 import { Actions } from "@/store/action";
 import { useAppStore } from "@/store/hook";
 import { useQuery } from "@/store/query";

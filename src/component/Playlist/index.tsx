@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
-import { Track } from "@/components/TrackList";
+import { Track } from "@/component/TrackList";
 import PlayIcon from "@/icons/playIcon";
 import { formatDuration } from "@/utils";
 import Link from "next/link";

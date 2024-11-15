@@ -4,7 +4,7 @@ import { useQuery } from "@/store/query";
 import { HorizontalLayout } from "@/ui/horizontalLayout";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import {Card} from "../components/Card";
+import { Card } from "@/component/Card/index";
 
 export default function Home() {
   const {
