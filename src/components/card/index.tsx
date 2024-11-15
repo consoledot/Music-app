@@ -66,10 +66,7 @@ export const Card: FC<CardProps> = (props) => {
       </figure>
       <div className="flex flex-col ">
         <p className="text-sm md:text-base font-semibold">{props.title}</p>
-        <p
-          className="items-center gap-1.5 opacity-70 max-w-full text-sm md:text-base whitespace-normal "
-         
-        >
+        <p className="items-center gap-1.5 opacity-70 max-w-full text-sm md:text-base whitespace-normal ">
           <Link href="/" className="hover:underline">
             {props.type}{" "}
           </Link>
